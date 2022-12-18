@@ -1,7 +1,7 @@
 <?php include('config.php');
 session_start();
 
-echo "<h3 class='btn btn-success' > Ciao utente " . $_SESSION['username'] . " sei connesso </h3>" . "<hr>";
+echo "<h3 class='btn btn-success' > Ciao utente " . $_SESSION['utente'] . " sei connesso </h3>" . "<hr>";
 
 $avviso = " ";
 

@@ -1,47 +1,30 @@
 <?php
-include("config.php");
 session_start();
+require_once "config.php";
+
 
 if (isset($_POST['submit'])) {
+    $nome    = mysqli_real_escape_string($connessione, $_POST['nome']);
+    $password = mysqli_real_escape_string($connessione, $_POST['password']);
 
-    $nome = $_POST['nome'];
-    $password = $_POST['password'];
-
-    $nome = mysqli_real_escape_string($connessione, $nome);
-    $password = mysqli_real_escape_string($connessione, $password);
-
-    $query = "SELECT * FROM utente WHERE nome = '{$nome}' AND password ='{$password}'";
-
-    $trovaUtente = mysqli_query($connessione, $query);
-
-    if (!$trovaUtente) {
-        die("richiesta fallita" . mysqli_error($connessione));
-    }else{
-        echo "Ciao $nome";
+    if (!filter_var($nome, FILTER_VALIDATE_EMAIL)) {
+        $messaggio_errore;
     }
+    if (!filter_var($password, FILTER_SANITIZE_FULL_SPECIAL_CHARS)) {
+        $messaggio_errore;
+    }
+    $query = mysqli_query($connessione, "SELECT * FROM utente WHERE nome =  '{$nome}' AND password = '{$password}' ");
+    if ($row = mysqli_fetch_array($query)) {
+        $_SESSION['utente']     = $row['nome'];
+        $_SESSION['utentepass']   = $row['password'];
 
-while($row =mysqli_fetch_array($trovaUtente)){
-        $utente = $row['nome'];
-        $passUtente = $row['password'];
+        header("Location: guestbook.php");
+    } else {
+        $messaggio_errore = "Nome o Password errate!!!";
+    }
 }
-if($nome === $utente && $password === $passUtente){
-
-    $_SESSION['nome'] = $utente;
-    $_SESSION['password'] = $passUtente;
-    $_SESSION['username'] = $nome;
-       
-   
-    header('Location: guestbook.php');
-} else{
-    echo "<p class='btn btn-danger'> Nome o password errate </p>";;
-}
-
-
-}
-
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,9 +52,10 @@ if($nome === $utente && $password === $passUtente){
                     <input type="password" name="password" class="form-control">
                 </div>
                 <input type="submit" name="submit" value="Login" class="btn btn-success">
+                <strong><?php if (isset($messaggio_errore)) echo $messaggio_errore; ?></strong>
             </form>
             <hr>
-           <a href="registrazione.php">Registrati</a>
+            <a href="registrazione.php">Registrati</a>
         </div>
 
 

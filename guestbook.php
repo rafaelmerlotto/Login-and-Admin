@@ -1,5 +1,7 @@
-<?php include('config.php');
+<?php
 session_start();
+include('config.php');
+
 
 echo "<h3 class='btn btn-success' > Ciao utente " . $_SESSION['utente'] . " sei connesso </h3>" . "<hr>";
 
@@ -13,7 +15,7 @@ if (isset($_POST['submit'])) {
 
     if (!empty($nickname) && !empty($messaggio)) {
 
-        $query = "INSERT INTO guestbook (nick , messaggio) VALUES ('{$nickname}','{$messaggio}')";
+        $query = "INSERT INTO guestbook (nick , messaggio) VALUES ('$nickname','$messaggio')";
 
         $creaQuery = mysqli_query($connessione, $query);
 
@@ -24,6 +26,9 @@ if (isset($_POST['submit'])) {
         $avviso = "<p class='btn btn-info'>Messaggio inviato con successo</p>";
     } else {
         $avviso = "<p class='btn btn-danger'>I campi non devono essere vuoti</p>";
+    }
+    if (!isset($_SESSION['user_loggato'])) {
+        header("Location:login.php");
     }
 }
 

@@ -13,16 +13,17 @@ if (isset($_POST['submit'])) {
     if (!filter_var($password, FILTER_SANITIZE_FULL_SPECIAL_CHARS)) {
         $messaggio_errore;
     }
-    $query = mysqli_query($connessione, "SELECT * FROM utente WHERE nome =  '{$nome}' AND password = '{$password}' ");
+    $query = mysqli_query($connessione, "SELECT * FROM utente WHERE nome =  '$nome' AND password = '$password'");
     if ($row = mysqli_fetch_array($query)) {
         $_SESSION['utente']     = $row['nome'];
-        $_SESSION['utentepass']   = $row['password'];
+        $_SESSION['user_loggato']   = 1;
 
         header("Location: guestbook.php");
     } else {
         $messaggio_errore = "Nome o Password errate!!!";
     }
 }
+
 ?>
 
 
@@ -50,9 +51,12 @@ if (isset($_POST['submit'])) {
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" name="password" class="form-control">
-                </div>
+                </div> 
+                 <strong><?php if (isset($messaggio_errore)) echo $messaggio_errore; ?></strong>
+                 <br>
                 <input type="submit" name="submit" value="Login" class="btn btn-success">
-                <strong><?php if (isset($messaggio_errore)) echo $messaggio_errore; ?></strong>
+                
+              
             </form>
             <hr>
             <a href="registrazione.php">Registrati</a>

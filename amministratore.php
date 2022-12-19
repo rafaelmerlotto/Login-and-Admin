@@ -1,4 +1,10 @@
-<?php include("config.php"); ?>
+<?php 
+session_start();
+include("config.php"); 
+
+if(!isset($_SESSION['admin_loggato']))
+    header("Location:login_admin.php");
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +41,7 @@
                     $nome = $_POST['nome'];
                     $password = $_POST['password'];
 
-                    $query = "INSERT INTO utente (nome, password) VALUES  ('{$nome}' , '{$password}')";
+                    $query = "INSERT INTO utente (nome, password) VALUES  ('$nome' , '$password')";
 
                     $creaUtenti = mysqli_query($connessione, $query);
 

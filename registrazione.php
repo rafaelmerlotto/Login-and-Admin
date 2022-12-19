@@ -6,20 +6,20 @@ if (isset($_POST['submit'])) {
     $nome = $_POST['nome'];
     $password = $_POST['password'];
 
-
+ 
 
     if (!empty($nome) && !empty($password)) {
 
-        $query = "INSERT INTO utente (nome,password) VALUES('{$nome}','{$password}')";
+        $query = "INSERT INTO utente (nome,password) VALUES('$nome','$password')";
 
         $creaUtenti = mysqli_query($connessione, $query);
 
         if (!$creaUtenti) {
             die("query fallita" . mysqli_error($connessione));
         }
-    } else {
-        echo "I campi non devono essere vuoti";
-       
+    else {
+        $messaggio_errore = "Registrazione effetuata con successo!!!";
+       } 
     }
 }
 
@@ -55,6 +55,7 @@ if (isset($_POST['submit'])) {
                 <input type="submit" name="submit" value="Invia" class="btn btn-success">
             </form>
         </div>
+        <strong><?php if (isset($messaggio_errore)) echo $messaggio_errore; ?></strong>
         <hr>
         <a href="login.php"> ← Torna alla pagina di Login</a>
 

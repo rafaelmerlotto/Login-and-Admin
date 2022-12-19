@@ -1,5 +1,13 @@
-<?php include('config.php');
+<?php
+session_start();
+include('config.php');
+if (!isset($_SESSION['user_loggato'])) {
+    header("Location:login.php");
+}
 
+if (!isset($_SESSION['admin_loggato']))
+    header("Location:login_admin.php");
+?>
 
 
 ?>
@@ -19,9 +27,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-            <h3 class="bg-primary">Messaggi</h3>
-            <hr>
-                <table  class="table table-bordered">
+                <h3 class="bg-primary">Messaggi</h3>
+                <hr>
+                <table class="table table-bordered">
                     <tr style="font-size:18px; text-align:center">
                         <th>Nome</th>
                         <th>Messaggio</th>
@@ -29,7 +37,7 @@
 
 
                     <?php
-
+                    
                     $mostraQuery = "SELECT * FROM guestbook";
 
                     $mostraMessagi = mysqli_query($connessione, $mostraQuery);
@@ -43,6 +51,8 @@
                         echo   "<td> {$messaggio}</td>";
                         echo "</tr>";
                     }
+
+
                     ?>
                 </table>
 

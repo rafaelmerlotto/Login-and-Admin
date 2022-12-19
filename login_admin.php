@@ -7,10 +7,10 @@ if(isset($_POST['submit'])){
             'password'=>FILTER_SANITIZE_FULL_SPECIAL_CHARS];
      $form_data = filter_input_array(INPUT_POST,$filters);       
      if($form_data['admin'] === "admin" && $form_data['password'] === "admin"){
-       
+        $_SESSION['admin_loggato']=1;
         header("Location:amministratore.php");
      } else {
-        echo "<p class='btn btn-danger'> Admin o password errate </p>";
+       $messaggio_errore = "Admin o password errate!!!";
      }
 }
 
@@ -41,6 +41,8 @@ if(isset($_POST['submit'])){
                     <label for="password">Password</label>
                     <input type="password" name="password" class="form-control">
                 </div>
+                <strong><?php if (isset($messaggio_errore)) echo $messaggio_errore; ?></strong>
+                <br>
                 <input type="submit" name="submit" value="Login" class="btn btn-success">
             </form>
         </div>

@@ -1,4 +1,7 @@
 <?php
+setcookie("Autore", "Rafael Merlotto", time() + 3600);
+
+
 $host = "localhost";
 $user = "rafael";
 $password = "basiliko";

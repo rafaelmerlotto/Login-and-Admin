@@ -5,10 +5,6 @@ if (!isset($_SESSION['user_loggato'])) {
     header("Location:login.php");
 }
 
-if (!isset($_SESSION['admin_loggato']))
-    header("Location:login_admin.php");
-?>
-
 
 ?>
 
